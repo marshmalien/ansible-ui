@@ -1,18 +1,38 @@
+import type { SummaryFieldCredential } from './summary-fields/summary-fields';
+import type { SummaryFieldsExecutionEnvironment } from './summary-fields/summary-fields';
 export interface Launch {
   ask_inventory_on_launch: boolean;
   ask_limit_on_launch: boolean;
   ask_scm_branch_on_launch: boolean;
   can_start_without_user_input: boolean;
   defaults: {
-    inventory: {
-      name: string;
+    credentials: SummaryFieldCredential[];
+    diff_mode: boolean;
+    execution_environment: SummaryFieldsExecutionEnvironment;
+    extra_vars: string;
+    instance_groups: {
       id: number;
+      name: string;
+    };
+    inventory: {
+      id: number;
+      name: string;
+    };
+    job_slice_count: number;
+    job_tags: string;
+    job_type: 'run' | 'check';
+    labels: {
+      count: number;
+      results: {
+        id: number;
+        name: string;
+      }[];
     };
     limit: number;
     scm_branch: string;
-    job_tags: string;
     skip_tags: string;
-    extra_vars: string;
+    timeout: number;
+    verbosity: number;
   };
   survey_enabled: boolean;
   variables_needed_to_start: string[];

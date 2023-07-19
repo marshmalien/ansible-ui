@@ -1,5 +1,5 @@
 import { ButtonVariant } from '@patternfly/react-core';
-import { EditIcon, PlusCircleIcon, TrashIcon } from '@patternfly/react-icons';
+import { EditIcon, PlusCircleIcon, RocketIcon, TrashIcon } from '@patternfly/react-icons';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -84,6 +84,13 @@ export function Templates() {
         icon: EditIcon,
         label: t(`Edit template`),
         href: (template) => RouteObj.EditJobTemplate.replace(':id', template.id.toString()),
+      },
+      {
+        type: PageActionType.Link,
+        selection: PageActionSelection.Single,
+        icon: RocketIcon,
+        label: t(`Launch template [in-page]`),
+        href: (template) => RouteObj.JobTemplatePrompt.replace(':id', template.id.toString()),
       },
       { type: PageActionType.Seperator },
       {

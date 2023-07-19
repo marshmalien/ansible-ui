@@ -53,6 +53,7 @@ import { ManagementJobPage } from './administration/management-jobs/ManagementJo
 import { ManagementJobs } from './administration/management-jobs/ManagementJobs';
 import { ApplicationPage } from './administration/applications/ApplicationPage/ApplicationPage';
 import { Applications } from './administration/applications/Applications';
+import { TemplateLaunch } from '../../framework/PageWizard/TemplateLaunch';
 
 export function AwxRouter() {
   const RouteObjWithoutPrefix = useRoutesWithoutPrefix(RouteObj.AWX);
@@ -88,6 +89,7 @@ export function AwxRouter() {
         />
         <Route path={RouteObjWithoutPrefix.HostMetrics} element={<HostMetrics />} />
         <Route path={RouteObjWithoutPrefix.Templates} element={<Templates />} />
+        <Route path={RouteObjWithoutPrefix.JobTemplatePrompt} element={<TemplateLaunch />} />
         <Route path={RouteObjWithoutPrefix.JobTemplatePage} element={<TemplatePage />} />
         <Route
           path={RouteObjWithoutPrefix.WorkflowJobTemplatePage}

@@ -41,6 +41,7 @@ export const RouteObj = {
   JobTemplateSchedules: `${awxRoutePrefix}/job_template/:id/schedules`,
   JobTemplateSchedulesCreate: `${awxRoutePrefix}/job_template/:id/schedules/create`,
   JobTemplateDetails: `${awxRoutePrefix}/job_template/:id/details`,
+  JobTemplatePrompt: `${awxRoutePrefix}/job_template/:id/prompt`,
   JobTemplateAccess: `${awxRoutePrefix}/job_template/:id/access`,
   JobTemplateNotifications: `${awxRoutePrefix}/job_template/:id/notifications`,
   JobTemplateJobs: `${awxRoutePrefix}/job_template/:id/jobs`,

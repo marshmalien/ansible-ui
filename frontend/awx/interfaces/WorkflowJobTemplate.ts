@@ -68,5 +68,19 @@ export interface WorkflowJobTemplate
       read_role: { id: number };
       approval_role: { id: number };
     };
+    user_capabilities: {
+      edit: boolean;
+      delete: boolean;
+      start: boolean;
+      schedule: boolean;
+      copy: boolean;
+    };
   };
+  ask_inventory_on_launch: boolean;
+  ask_labels_on_launch: boolean;
+  ask_limit_on_launch: boolean;
+  ask_scm_branch_on_launch: boolean;
+  ask_skip_tags_on_launch: boolean;
+  ask_tags_on_launch: boolean;
+  ask_variables_on_launch: boolean;
 }

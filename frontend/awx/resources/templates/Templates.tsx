@@ -1,5 +1,5 @@
 import { ButtonVariant } from '@patternfly/react-core';
-import { EditIcon, PlusCircleIcon, TrashIcon } from '@patternfly/react-icons';
+import { EditIcon, PlusCircleIcon, RocketIcon, TrashIcon } from '@patternfly/react-icons';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -21,13 +21,16 @@ import getDocsBaseUrl from '../../common/util/getDocsBaseUrl';
 import { useAwxConfig } from '../../common/useAwxConfig';
 import { useTemplateFilters } from './hooks/useTemplateFilters';
 import { useTemplateColumns } from './hooks/useTemplateColumns';
+import { useLaunchTemplate } from './hooks/useLaunchTemplate';
+
+type UnifiedJobTemplate = JobTemplate | WorkflowJobTemplate;
 
 export function Templates() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const toolbarFilters = useTemplateFilters();
   const tableColumns = useTemplateColumns();
-  const view = useAwxView<JobTemplate | WorkflowJobTemplate>({
+  const view = useAwxView<UnifiedJobTemplate>({
     url: '/api/v2/unified_job_templates/',
     toolbarFilters,
     tableColumns,
@@ -39,8 +42,9 @@ export function Templates() {
   const config = useAwxConfig();
 
   const deleteTemplates = useDeleteTemplates(view.unselectItemsAndRefresh);
+  const launchTemplate = useLaunchTemplate();
 
-  const toolbarActions = useMemo<IPageAction<JobTemplate | WorkflowJobTemplate>[]>(
+  const toolbarActions = useMemo<IPageAction<UnifiedJobTemplate>[]>(
     () => [
       {
         type: PageActionType.Dropdown,
@@ -76,7 +80,7 @@ export function Templates() {
     [deleteTemplates, navigate, t]
   );
 
-  const rowActions = useMemo<IPageAction<JobTemplate | WorkflowJobTemplate>[]>(
+  const rowActions = useMemo<IPageAction<UnifiedJobTemplate>[]>(
     () => [
       {
         type: PageActionType.Link,
@@ -84,6 +88,15 @@ export function Templates() {
         icon: EditIcon,
         label: t(`Edit template`),
         href: (template) => RouteObj.EditJobTemplate.replace(':id', template.id.toString()),
+      },
+      {
+        type: PageActionType.Button,
+        selection: PageActionSelection.Single,
+        icon: RocketIcon,
+        label: t(`Launch template`),
+        onClick: (template) => void launchTemplate(template),
+        isHidden: (template: UnifiedJobTemplate) =>
+          !template?.summary_fields?.user_capabilities?.start,
       },
       { type: PageActionType.Seperator },
       {
@@ -95,7 +108,7 @@ export function Templates() {
         isDanger: true,
       },
     ],
-    [deleteTemplates, t]
+    [deleteTemplates, launchTemplate, t]
   );
   return (
     <PageLayout>
@@ -110,7 +123,7 @@ export function Templates() {
           'A job template is a definition and set of parameters for running an Ansible job.'
         )}
       />
-      <PageTable<JobTemplate | WorkflowJobTemplate>
+      <PageTable<UnifiedJobTemplate>
         toolbarFilters={toolbarFilters}
         toolbarActions={toolbarActions}
         tableColumns={tableColumns}

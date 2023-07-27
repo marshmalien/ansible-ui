@@ -6,19 +6,45 @@ import { Job } from '../../interfaces/Job';
 // 1) Fetching labels from api
 // 2) Fetching survey from api
 // 3) Doing what needs to be done with this data in the prompt workflow.
+
+function getLaunchRequestUrl(resourceType: string, resourceId: number) {
+  const id = resourceId.toString();
+  const baseUrl = '/api/v2/';
+  switch (resourceType) {
+    case 'workflow_job_template':
+      return `${baseUrl}workflow_job_templates/${id}/launch/`;
+    case 'job_template':
+      return `${baseUrl}job_templates/${id}/launch/`;
+    case 'job':
+      return `${baseUrl}jobs/${id}/relaunch/`;
+    case 'workflow_job':
+      return `${baseUrl}workflow_jobs/${id}/relaunch/`;
+    case 'ad_hoc_command':
+      return `${baseUrl}ad_hoc_commands/${id}/relaunch/`;
+    default:
+      return '';
+  }
+}
+
 function canLaunchWithoutPrompt(launchData: Launch) {
   return (
-    launchData.can_start_without_user_input &&
+    !launchData.ask_credential_on_launch &&
+    !launchData.ask_diff_mode_on_launch &&
+    !launchData.ask_execution_environment_on_launch &&
+    !launchData.ask_forks_on_launch &&
+    !launchData.ask_instance_groups_on_launch &&
     !launchData.ask_inventory_on_launch &&
-    !launchData.ask_variables_on_launch &&
+    !launchData.ask_job_slice_count_on_launch &&
+    !launchData.ask_job_type_on_launch &&
+    !launchData.ask_labels_on_launch &&
     !launchData.ask_limit_on_launch &&
     !launchData.ask_scm_branch_on_launch &&
-    !launchData.ask_execution_environment_on_launch &&
-    !launchData.ask_labels_on_launch &&
-    !launchData.ask_forks_on_launch &&
-    !launchData.ask_job_slice_count_on_launch &&
+    !launchData.ask_skip_tags_on_launch &&
+    !launchData.ask_tags_on_launch &&
     !launchData.ask_timeout_on_launch &&
-    !launchData.ask_instance_groups_on_launch &&
+    !launchData.ask_variables_on_launch &&
+    !launchData.ask_verbosity_on_launch &&
+    launchData.can_start_without_user_input &&
     !launchData.survey_enabled &&
     (!launchData.passwords_needed_to_start || launchData.passwords_needed_to_start.length === 0) &&
     (!launchData.variables_needed_to_start || launchData.variables_needed_to_start.length === 0)
@@ -44,35 +70,19 @@ export const handleLaunch = async (resourceType: string, resourceId: number) => 
   }
 };
 
-const launchWithParams = (resourceType: string, resourceId: number, params?: Launch) => {
-  let jobPromise;
-
-  if (resourceType === 'job_template') {
-    jobPromise = postRequest<Job>(`/api/v2/job_templates/${resourceId.toString()}/launch/`, params);
-  } else if (resourceType === 'workflow_job_template') {
-    jobPromise = postRequest<Job>(
-      `/api/v2/workflow_job_templates/${resourceId.toString()}/launch/`,
-      params
-    );
-  } else if (resourceType === 'job') {
-    jobPromise = postRequest<Job>(`/api/v2/jobs/${resourceId.toString()}/launch/`, params);
-  } else if (resourceType === 'workflow_job') {
-    jobPromise = postRequest<Job>(`/api/v2/workflow_jobs/${resourceId.toString()}/launch/`, params);
-  } else if (resourceType === 'ad_hoc_command') {
+export const launchWithParams = (resourceType: string, resourceId: number, params?: Launch) => {
+  if (resourceType === 'ad_hoc_command') {
     if (params?.credential_passwords) {
       // The api expects the passwords at the top level of the object instead of nested
       // in credential_passwords like the other relaunch endpoints
       Object.keys(params.credential_passwords).forEach((key) => {
-        params[key] = params.credential_passwords[key];
+        if (params.credential_passwords !== undefined) {
+          params[key] = params.credential_passwords[key];
+        }
       });
     }
-    jobPromise = postRequest<Job>(
-      `/api/v2/ad_hoc_commands/${resourceId.toString()}/launch/`,
-      params || {}
-    );
   }
-
-  return jobPromise;
+  return postRequest<Job>(getLaunchRequestUrl(resourceType, resourceId), params);
 };
 
 export const handleRelaunch = async (resourceType: string, resourceId: number, params?: Launch) => {

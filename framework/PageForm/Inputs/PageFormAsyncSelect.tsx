@@ -46,6 +46,7 @@ export interface PageFormAsyncSelectProps<
     defaultSelection?: SelectionType
   ) => void;
   limit: number;
+  shouldUnregister?: boolean;
 }
 
 export function PageFormAsyncSelect<
@@ -67,6 +68,7 @@ export function PageFormAsyncSelect<
     labelHelp,
     labelHelpTitle,
     additionalControls,
+    shouldUnregister = true,
   } = props;
   const id = props.id ?? name.split('.').join('-');
 
@@ -82,7 +84,9 @@ export function PageFormAsyncSelect<
 
   const queryHandler = useCallback(
     (page: number) => {
-      setValue(name, undefined as FieldPathValue<TFieldValues, TFieldName>);
+      // setValue(name, undefined as FieldPathValue<TFieldValues, TFieldName>);
+      // why is this here? it causes the value to be reset to undefined in the rhf state
+      // reproduce in wizard by setting a value and switching between steps
       setLoadingError(undefined);
       return query(page)
         .then((result) => {
@@ -105,7 +109,7 @@ export function PageFormAsyncSelect<
     <Controller<TFieldValues, TFieldName>
       name={name}
       control={control}
-      shouldUnregister
+      shouldUnregister={shouldUnregister}
       render={({ field: { onChange, value }, fieldState: { error } }) => {
         return (
           <PageFormGroup

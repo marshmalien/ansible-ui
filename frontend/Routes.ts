@@ -44,6 +44,7 @@ export const RouteObj = {
   JobTemplateNotifications: `${awxRoutePrefix}/job_template/:id/notifications`,
   JobTemplateJobs: `${awxRoutePrefix}/job_template/:id/jobs`,
   JobTemplateSurvey: `${awxRoutePrefix}/job_template/:id/survey`,
+  JobTemplatePrompt: `${awxRoutePrefix}/job_template/:id/prompt`,
 
   JobTemplateSchedules: `${awxRoutePrefix}/job_template/:id/schedules/`,
   JobTemplateSchedulePage: `${awxRoutePrefix}/job_template/:id/schedules/:schedule_id/*`,
@@ -63,6 +64,7 @@ export const RouteObj = {
   WorkflowJobTemplateScheduleRules: `${awxRoutePrefix}/workflow_job_template/:id/schedules/:schedule_id/rules`,
   WorkflowJobTemplateJobs: `${awxRoutePrefix}/workflow_job_template/:id/jobs`,
   WorkflowJobTemplateSurvey: `${awxRoutePrefix}/workflow_job_template/:id/survey`,
+  WorkflowJobTemplatePrompt: `${awxRoutePrefix}/workflow_job_template/:id/prompt`,
   WorkflowJobTemplateVisualizer: `${awxRoutePrefix}/workflow_job_template/:id/visualizer`,
   CreateWorkflowJobTemplate: `${awxRoutePrefix}/workflow_job_template/create`,
   CreateJobTemplate: `${awxRoutePrefix}/job_template/create`,

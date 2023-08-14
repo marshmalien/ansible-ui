@@ -54,6 +54,7 @@ import Jobs from './views/jobs/Jobs';
 import { CreateSchedule } from './views/schedules/ScheduleForm';
 import { SchedulePage } from './views/schedules/SchedulePage/SchedulePage';
 import { Schedules } from './views/schedules/Schedules';
+import { TemplateLaunchWizard } from './resources/templates/TemplateLaunchWizard/TemplateLaunchWizard';
 
 export function AwxRouter() {
   const RouteObjWithoutPrefix = useRoutesWithoutPrefix(RouteObj.AWX);
@@ -97,6 +98,11 @@ export function AwxRouter() {
         />
         <Route path={RouteObjWithoutPrefix.HostMetrics} element={<HostMetrics />} />
         <Route path={RouteObjWithoutPrefix.Templates} element={<Templates />} />
+        <Route path={RouteObjWithoutPrefix.JobTemplatePrompt} element={<TemplateLaunchWizard />} />
+        <Route
+          path={RouteObjWithoutPrefix.WorkflowJobTemplatePrompt}
+          element={<TemplateLaunchWizard />}
+        />
         <Route path={RouteObjWithoutPrefix.JobTemplatePage} element={<TemplatePage />} />
         <Route
           path={RouteObjWithoutPrefix.WorkflowJobTemplatePage}

@@ -1,5 +1,5 @@
 import { ButtonVariant } from '@patternfly/react-core';
-import { EditIcon, PlusCircleIcon, TrashIcon } from '@patternfly/react-icons';
+import { EditIcon, PlusCircleIcon, TrashIcon, RocketIcon } from '@patternfly/react-icons';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -21,6 +21,7 @@ import { useAwxView } from '../../useAwxView';
 import { useDeleteTemplates } from './hooks/useDeleteTemplates';
 import { useTemplateColumns } from './hooks/useTemplateColumns';
 import { useTemplateFilters } from './hooks/useTemplateFilters';
+import { useLaunchTemplate } from './hooks/useLaunchTemplate';
 
 export function Templates() {
   const { t } = useTranslation();
@@ -39,6 +40,7 @@ export function Templates() {
   const config = useAwxConfig();
 
   const deleteTemplates = useDeleteTemplates(view.unselectItemsAndRefresh);
+  const launchTemplate = useLaunchTemplate();
 
   const toolbarActions = useMemo<IPageAction<JobTemplate | WorkflowJobTemplate>[]>(
     () => [
@@ -78,26 +80,6 @@ export function Templates() {
 
   const rowActions = useMemo<IPageAction<JobTemplate | WorkflowJobTemplate>[]>(
     () => [
-      // TODO: Launch template
-      // {
-      //   type: PageActionType.Button,
-      //   selection: PageActionSelection.Single,
-      //   icon: RocketIcon,
-      //   isPinned: true,
-      //   label: t('Launch template'),
-      //   onClick: async (template) => {
-      //     // try {
-      //     //   const job = await handleLaunch(template?.type as string, template?.id);
-      //     //   if (job) {
-      //     //     navigate(getJobOutputUrl(job));
-      //     //   }
-      //     // } catch {
-      //     //   // handle error
-      //     // }
-      //   },
-      //   ouiaId: 'job-template-detail-launch-button',
-      //   isDanger: false,
-      // },
       {
         type: PageActionType.Link,
         selection: PageActionSelection.Single,
@@ -105,6 +87,18 @@ export function Templates() {
         icon: EditIcon,
         label: t(`Edit template`),
         href: (template) => RouteObj.EditJobTemplate.replace(':id', template.id.toString()),
+      },
+      {
+        type: PageActionType.Button,
+        selection: PageActionSelection.Single,
+        icon: RocketIcon,
+        isPinned: true,
+        label: t(`Launch template`),
+        onClick: (template) => void launchTemplate(template),
+        isHidden: (template: JobTemplate | WorkflowJobTemplate) =>
+          !template?.summary_fields?.user_capabilities?.start,
+        ouiaId: 'job-template-detail-launch-button',
+        isDanger: false,
       },
       { type: PageActionType.Seperator },
       {
@@ -116,7 +110,7 @@ export function Templates() {
         isDanger: true,
       },
     ],
-    [deleteTemplates, t]
+    [deleteTemplates, launchTemplate, t]
   );
   return (
     <PageLayout>

@@ -69,5 +69,12 @@ export interface WorkflowJobTemplate
       read_role: { id: number };
       approval_role: { id: number };
     };
+    user_capabilities: {
+      delete: boolean;
+      start: boolean;
+      edit: boolean;
+      copy: boolean;
+      schedule: boolean;
+    };
   };
 }

@@ -25,9 +25,11 @@ export enum AwxRoute {
   EditTemplate = 'awx-edit-template',
   TemplatePage = 'awx-template-page',
   TemplateSchedule = 'awx-template-schedule',
+  TemplateLaunchWizard = 'awx-template-launch-wizard',
 
   WorkflowJobTemplateSchedule = 'awx-workflow-job-template-schedule',
   WorkflowJobTemplatePage = 'awx-workflow-job-template-page',
+  WorkflowJobTemplateLaunchWizard = 'awx-workflow-job-template-launch-wizard',
 
   Credentials = 'awx-credentials',
   CreateCredential = 'awx-create-credential',

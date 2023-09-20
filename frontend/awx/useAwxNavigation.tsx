@@ -58,6 +58,7 @@ import Jobs from './views/jobs/Jobs';
 import { CreateSchedule } from './views/schedules/ScheduleForm';
 import { SchedulePage } from './views/schedules/SchedulePage/SchedulePage';
 import { Schedules } from './views/schedules/Schedules';
+import { TemplateLaunchWizard } from './resources/templates/TemplatePage/TemplateLaunchWizard';
 
 export function useAwxNavigation() {
   const { t } = useTranslation();
@@ -174,6 +175,11 @@ export function useAwxNavigation() {
                         id: AwxRoute.TemplatePage,
                         path: ':id/*',
                         element: <TemplatePage />,
+                      },
+                      {
+                        id: AwxRoute.TemplateLaunchWizard,
+                        path: ':id/launch',
+                        element: <TemplateLaunchWizard />,
                       },
                     ],
                   },

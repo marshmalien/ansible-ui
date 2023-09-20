@@ -52,8 +52,12 @@ export function PageFormCreatableSelect<
           value={value}
           isSubmitting={isSubmitting}
           onHandleClear={(chip?: string) => {
-            const values: { name: string }[] = getValues(props.name);
-            onChange(!chip ? [] : values.filter((v: { name: string }) => v.name !== chip));
+            const values: { name: string; isReadOnly: boolean }[] = getValues(props.name);
+            onChange(
+              !chip
+                ? values.filter((v) => v.isReadOnly)
+                : values.filter((v: { name: string }) => v.name !== chip)
+            );
           }}
           onHandleSelection={(item) => {
             let newValue;

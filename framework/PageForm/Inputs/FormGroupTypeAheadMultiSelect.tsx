@@ -39,7 +39,7 @@ export type FormGroupTypeAheadMultiSelectProps = Pick<
     ) => void;
     onHandleSelection: (value: string | SelectOptionObject | { name: string }) => void;
     isSubmitting: boolean;
-    value: Partial<{ name: string }>[];
+    value: Partial<{ name: string; isReadOnly: boolean }>[];
     onHandleClear: (chip?: string) => void;
   };
 
@@ -70,6 +70,7 @@ export function FormGroupTypeAheadMultiSelect(props: FormGroupTypeAheadMultiSele
         {trimmedValues.map((v) => (
           <Chip
             key={v.name}
+            isReadOnly={v.isReadOnly}
             onClick={() => {
               onHandleClear(v.name);
             }}

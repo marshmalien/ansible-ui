@@ -8,7 +8,7 @@ import { PageDetailCodeEditor } from '../../../../../../framework/PageDetails/Pa
 import { CredentialLabel } from '../../../../common/CredentialLabel';
 import { useGet } from '../../../../../common/crud/useGet';
 import { useVerbosityString } from '../../../../common/useVerbosityString';
-import { PageWizardContext } from '../../../../../../framework/PageWizard/PageWizardContext';
+import { PageWizardContext } from '../../../../../../framework/PageWizard/PageWizardProvider';
 import type { Credential } from '../../../../interfaces/Credential';
 import type { JobTemplate } from '../../../../interfaces/JobTemplate';
 import type { TemplateLaunch } from '../TemplateLaunchWizard';

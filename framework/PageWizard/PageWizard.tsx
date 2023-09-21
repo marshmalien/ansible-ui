@@ -2,7 +2,7 @@ import '@patternfly/patternfly/components/Wizard/wizard.css';
 import PageWizardBody from './PageWizardBody';
 import PageWizardNavigation from './PageWizardNavigation';
 import PageWizardToggle from './PageWizardToggle';
-import { PageWizardProvider } from './PageWizardContext';
+import { PageWizardProvider } from './PageWizardProvider';
 import type { PageWizardStep } from './types';
 
 export default function PageWizard<T extends object>(props: {
@@ -12,7 +12,7 @@ export default function PageWizard<T extends object>(props: {
   onSubmit: (wizardData: T) => Promise<void>;
 }) {
   return (
-    <PageWizardProvider steps={props.steps} defaultValue={props.defaultValue}>
+    <PageWizardProvider<T> steps={props.steps} defaultValue={props.defaultValue}>
       <div
         className="pf-c-wizard"
         style={{

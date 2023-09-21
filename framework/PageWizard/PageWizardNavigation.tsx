@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { ExclamationCircleIcon } from '@patternfly/react-icons';
-import { PageWizardContext } from './PageWizardContext';
+import { PageWizardContext } from './PageWizardProvider';
 
 export default function PageWizardNavigation() {
   const { activeStep, steps, isToggleExpanded, setActiveStep, stepError } =
@@ -14,6 +14,8 @@ export default function PageWizardNavigation() {
     }
   };
 
+  if (!activeStep) return;
+
   return (
     <nav className={navClassName} aria-label="Steps">
       <ol className="pf-c-wizard__nav-list">
@@ -25,10 +27,6 @@ export default function PageWizardNavigation() {
             'pf-c-wizard__nav-link' + // eslint-disable-line i18next/no-literal-string
             (activeStep.id === step.id ? ' pf-m-current' : '') + // eslint-disable-line i18next/no-literal-string
             (isDisabled ? ' pf-m-disabled' : ''); // eslint-disable-line i18next/no-literal-string
-
-          if (step.isHidden) {
-            return;
-          }
 
           return (
             <li className="pf-c-wizard__nav-item" key={step.id}>

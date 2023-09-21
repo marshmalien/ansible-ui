@@ -150,15 +150,15 @@ export function TemplateLaunchWizard() {
     {
       id: 'inventory',
       label: 'Inventory',
-      inputs: <PageFormInventorySelect name="inventory" isRequired />,
-      isHidden: !template.ask_inventory_on_launch,
+      inputs: <PageFormInventorySelect<TemplateLaunch> name="inventory" isRequired />,
+      hidden: () => !template.ask_inventory_on_launch,
     },
     {
       id: 'credentials',
       label: 'Credentials',
-      isHidden: !template.ask_credential_on_launch,
+      hidden: () => !template.ask_credential_on_launch,
       inputs: (
-        <PageFormCredentialSelect
+        <PageFormCredentialSelect<TemplateLaunch>
           name="credentials"
           label={t('Credentials')}
           placeholder={t('Add credentials')}
@@ -174,21 +174,21 @@ export function TemplateLaunchWizard() {
       id: 'execution-environment',
       label: 'Execution Environment',
       inputs: (
-        <PageFormExecutionEnvironmentSelect
+        <PageFormExecutionEnvironmentSelect<TemplateLaunch>
           name="execution_environment.name"
           executionEnvironmentPath="execution_environment"
           executionEnvironmentIdPath="execution_environment.id"
           organizationId={template.organization?.toString() ?? ''}
         />
       ),
-      isHidden: !template.ask_execution_environment_on_launch,
+      hidden: () => !template.ask_execution_environment_on_launch,
     },
     {
       label: 'Instance Groups',
       id: 'instance-groups',
-      isHidden: !template.ask_instance_groups_on_launch,
+      hidden: () => !template.ask_instance_groups_on_launch,
       inputs: (
-        <PageFormInstanceGroupSelect
+        <PageFormInstanceGroupSelect<TemplateLaunch>
           name="instance_groups"
           labelHelp={t(`Select the instance groups for this template to run on.`)}
         />
@@ -197,7 +197,7 @@ export function TemplateLaunchWizard() {
     {
       label: 'Other prompts',
       id: 'other-prompts',
-      isHidden: !shouldShowOtherStep(config),
+      hidden: () => !shouldShowOtherStep(config),
       inputs: <OtherPromptsStep config={config} template={template} />,
     },
     {

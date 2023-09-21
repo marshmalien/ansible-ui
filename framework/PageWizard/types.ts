@@ -5,11 +5,11 @@ export interface PageWizardStep {
   label: string;
   inputs?: React.ReactNode;
   element?: React.ReactNode;
-  isHidden?: boolean;
+  hidden?: (wizardData: object) => boolean;
 }
 
 export interface PageWizardState {
-  activeStep: PageWizardStep;
+  activeStep: PageWizardStep | null;
   isToggleExpanded: boolean;
   setActiveStep: (step: PageWizardStep) => void;
   setStepData: React.Dispatch<SetStateAction<Record<string, object>>>;
